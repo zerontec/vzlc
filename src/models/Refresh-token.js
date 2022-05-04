@@ -3,7 +3,7 @@ const {DataTypes} = require ('sequelize')
 
 module.exports = (sequelize) =>  {
 
-sequelize.define('refrestoken',options, {
+sequelize.define('refrestoken', {
 
     token: { type: DataTypes.STRING },
     expires: { type: DataTypes.DATE },
@@ -24,10 +24,6 @@ sequelize.define('refrestoken',options, {
 
     
 })
-const options = {
-    // disable default timestamp fields (createdAt and updatedAt)
-    timestamps: false
-};
 
 
 }

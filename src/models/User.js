@@ -45,7 +45,7 @@ module.exports = (sequelize) => {
     resetToken: {
       type: DataTypes.STRING
     },
-    resestTokenExpires: {
+    resetTokenExpires: {
 
       type: DataTypes.DATE
     },
