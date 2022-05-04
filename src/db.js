@@ -65,11 +65,11 @@ Comment.belongsTo(Project);
 
 Project.belongsToMany(Rating, {through: 'project_rating'})
 Rating.belongsToMany(Project,{through: 'project_rating'});
-Rating.belongsToMany(User, {troungh: 'user_rating'});
-User.belongsToMany(Rating, {troungh:'user_rating'});
+Rating.belongsToMany(User, {through: 'user_rating'});
+User.belongsToMany(Rating, {through:'user_rating'});
 
-User.belongsToMany(Role, {troungh: 'user_role'});
-Role.belongsToMany(User, {troungh: 'user_role'})
+User.belongsToMany(Role, {through: 'user_role'});
+Role.belongsToMany(User, {through: 'user_role'})
 
 
 
