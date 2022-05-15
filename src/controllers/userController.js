@@ -1,6 +1,6 @@
 const { User } = require("../db");
 const { Op } =require (  "sequelize");
-const { update } = require("../services/account.services");
+const { update, create } = require("../services/account.services");
 
 /* Todo esto es usado por el  Admin   all this is used by the Admin */
 
@@ -10,6 +10,8 @@ const { update } = require("../services/account.services");
  * @param res - The response object.
  * @param next - A function that you call to pass control to the next middleware function.
  */
+
+
 async function getUsers(req, res, next) {
   try {
     console.log("entramos a usuarios");
@@ -28,6 +30,29 @@ async function getUsers(req, res, next) {
   }
 }
 
+
+
+/**
+ * Create a new user with the information provided in the request body, and return the new user as
+ * JSON.
+ * @param req - The request object.
+ * @param res - the response object
+ * @param next - The next middleware function in the stack.
+ */
+ function createUser(req, res, next) {
+
+user = User
+
+ create(req.body)
+ .then(user => res.json(user))
+ .catch(next)
+
+
+}
+
+
+
+
 /**
  * It's an async function that takes in a request, response, and next function as parameters. It then
  * tries to find a user by id and returns a 200 status code with the data and a message if the user is
@@ -38,6 +63,9 @@ async function getUsers(req, res, next) {
  * @param next - The next middleware function in the stack.
  * @returns The data is being returned.
  */
+
+
+
 async function getUserById(req, res, next) {
   try {
     let { id } = req.params;
@@ -52,6 +80,9 @@ async function getUserById(req, res, next) {
     res.status(500).json(err);
   }
 }
+
+
+
 
 //Put User
 
@@ -121,7 +152,7 @@ async function searchUser(req, res, next) {
       });
       res.status(200).send(dataUsername);
     } else {
-      res.status(400).send({ message: "no se encontro lo que buscas " });
+      res.status(400).send({ message: "no se encontro Usuario " });
     }
     if (email) {
       const dataEmail = await User.findOne({
@@ -129,11 +160,11 @@ async function searchUser(req, res, next) {
       });
       res.status(200).send(dataEmail);
     } else {
-      res.status(400).send({ message: "No se encontro lo que buscaba" });
+      res.status(400).send({ message: "No se encontro Usuario" });
     }
   } catch (err) {
     res.status(500).send(err);
   }
 }
 
-module.exports = { getUsers, getUserById, putUser, deleteUser, searchUser };
+module.exports = { getUsers, getUserById, putUser, deleteUser, searchUser, createUser };
