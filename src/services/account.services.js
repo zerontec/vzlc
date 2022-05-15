@@ -1,5 +1,39 @@
-const { encry } = require("bcrypt");
-const { user } = require("../db");
+const  bcrypt  = require('bcrypt');
+const { User } = require("../db");
+
+
+
+
+async function create(params){
+
+
+
+if(await User.findOne({where: {email:params.email}})){
+
+throw 'Email " ' + params.email + ' " is Alredy registered'
+
+
+}else if(await User.findOne({where:{username:params.username}})){
+
+  throw 'Username " ' + params.username + ' " is Alredy registered'
+
+
+}
+
+const user = new User(params); 
+user.verified = Date.now();
+
+
+//has password
+user.passwordHash = await hash(params.password)
+
+//save User
+await user.save()
+return basicDetails(user)
+
+
+}
+
 
 
 
@@ -10,6 +44,7 @@ const { user } = require("../db");
  * @returns The account object.
  */
 async function getAccount(id) {
+  const user = User 
   const account = await user.findByPk(id);
   if (!account) throw "Cuenta no encontrada";
   return account;
@@ -51,8 +86,8 @@ async function update(id, params) {
  * @param account - The account object that is being passed in.
  * @returns An object with the properties id, name, username, email, role, created, and updated.
  */
-function basicDetails(account) {
-  const { id, name, username, email, role, created, updated } = account;
+function basicDetails(user) {
+  const { id, name, username, email, role, created, updated } = user;
   return { id, name, username, email, role, created, updated };
 }
 
@@ -64,9 +99,10 @@ function basicDetails(account) {
  * @returns A promise.
  */
 async function hash(password) {
-  return await encry.hash(password, 10);
+  return await bcrypt.hashSync(password, 10);
 }
 
 module.exports = {
   update,
+  create
 };
