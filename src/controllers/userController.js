@@ -95,7 +95,7 @@ async function getUserById(req, res, next) {
 async function putUser(req, res, next) {
   try {
       update(req.params.id, req.body)
-      .then((account) => res.json(account))
+      .then((user) => res.json(user))
       .catch(next);
 
     res.status(202).send({ message: "usuario actualizado Exitosamente" });
