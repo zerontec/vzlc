@@ -25,7 +25,7 @@ user.verified = Date.now();
 
 
 //has password
-user.passwordHash = await hash(params.password)
+user.passwordHash = await  hash(params.password)
 
 //save User
 await user.save()
@@ -44,8 +44,8 @@ return basicDetails(user)
  * @returns The account object.
  */
 async function getAccount(id) {
-  const user = User 
-  const account = await user.findByPk(id);
+ 
+  const account = await User.findByPk(id);
   if (!account) throw "Cuenta no encontrada";
   return account;
 }
@@ -59,7 +59,7 @@ async function getAccount(id) {
  */
 async function update(id, params) {
   const account = await getAccount(id);
-  const user = User;
+ 
   // validate (if email was changed)
   if (
     params.email &&
@@ -99,7 +99,7 @@ function basicDetails(user) {
  * @returns A promise.
  */
 async function hash(password) {
-  return await bcrypt.hashSync(password, 10);
+  return await bcrypt.hash(password, 10);
 }
 
 module.exports = {
